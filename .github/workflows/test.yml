@@ -13,6 +13,7 @@ jobs:
       id-token: "write"
 
     runs-on: ubuntu-latest
+    container: ubuntu:latest
     steps:
       - name: Install go build-essential
         uses: tailor-inc/github-actions/setup-go-build-essential
