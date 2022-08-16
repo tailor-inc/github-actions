@@ -1,0 +1,28 @@
+name: 'notify-to-slack'
+description: 'Notify to slack build result'
+inputs:
+  title:
+    description: 'Title of the message'
+    required: false
+    default: 'Build'
+  webhook_url:
+    description: 'Slack webhook url'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Slack Notification on Success
+      if: ${{ success() }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Succeeded
+        SLACK_COLOR: good
+        SLACK_WEBHOOK: ${{ inputs.webhook_url }}
+
+    - name: Slack Notification on Failure
+      if: ${{ failure() }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Failed
+        SLACK_COLOR: danger
+        SLACK_WEBHOOK: ${{ inputs.webhook_url }}
