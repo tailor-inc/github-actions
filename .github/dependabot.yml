@@ -6,5 +6,5 @@ updates:
       interval: "daily"
     reviewers:
       - "tailor-inc/sre"
-    asignees:
+    assignees:
       - "tailor-inc/sre"
