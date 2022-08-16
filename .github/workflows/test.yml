@@ -1,0 +1,24 @@
+name: "test"
+on:
+  push:
+    branches-ignore:
+      - "main"
+  pull_request:
+    types: [reopened, closed]
+
+jobs:
+  build:
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    steps:
+      - name: Install go build-essential
+        uses: tailor-inc/github-actions/setup-go-build-essential@HEAD
+
+      - name: Notify to slack build result
+        uses: tailor-inc/github-actions/slack-notification@HEAD
+        with:
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
