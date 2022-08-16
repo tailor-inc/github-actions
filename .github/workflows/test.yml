@@ -12,8 +12,7 @@ jobs:
       contents: "read"
       id-token: "write"
 
-    runs-on: self-hosted
-    container: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: Install go build-essential
         uses: tailor-inc/github-actions/setup-go-build-essential@22.08q
