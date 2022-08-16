@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install go build-essential
-        uses: tailor-inc/github-actions/setup-go-build-essential@22.08
+        uses: tailor-inc/github-actions/setup-go-build-essential
 
       - name: Notify to slack build result
-        uses: tailor-inc/github-actions/slack-notification@22.08
+        uses: tailor-inc/github-actions/slack-notification
         with:
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
