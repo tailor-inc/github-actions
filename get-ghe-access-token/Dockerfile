@@ -1,8 +1,12 @@
-FROM python:3.9 AS deps
+FROM python:3.9
 
-COPY . .
+WORKDIR /app
+COPY requirements.txt /app
 
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip \
+  && pip install -r /app/requirements.txt
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY . /app
+
+CMD ["/app/entrypoint.sh"]
 
