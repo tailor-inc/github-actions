@@ -1,0 +1,52 @@
+name: get access token
+description: 'Get access token via GitHub App'
+
+inputs:
+  setup-python:
+    required: false
+    default: 'true'
+    description: 'Setup python'
+  github-app-id:
+    required: true
+    description: 'github app id'
+  github-app-installation-id:
+    required: true
+    description: 'github app installation id'
+  github-app-private-key:
+    required: true
+    description: 'github app private key'
+
+outputs:
+  access_token:
+    value: ${{ steps.get_access_token.outputs.access_token }}
+    description: 'access token'
+
+runs:
+  using: "composite"
+  steps:
+    # cryptgraphy package requires rust
+    - name: Setup | Rust
+      if: ${{ inputs.setup-python == 'true' }}
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: stable
+        components: clippy
+    - name: Setup | Python
+      uses: actions/setup-python@v3
+      if: ${{ inputs.setup-python == 'true' }}
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+
+    - name: Get access token
+      id: get_access_token
+      shell: bash
+      env:
+        GITHUB_APP_ID: ${{ inputs.github-app-id }}
+        GITHUB_APP_INSTALLATION_ID: ${{ inputs.github-app-installation-id }}
+        GITHUB_APP_PRIVATE_KEY: ${{ inputs.github-app-private-key }}
+      run: |
+        cd get-ghe-access-token/
+        pip3 install --user -r requirements.txt
+        output=$(python3 get_access_token.py)
+        echo "::set-output name=access_token::$output"

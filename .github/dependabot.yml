@@ -8,3 +8,11 @@ updates:
       - "tailor-inc/sre"
     assignees:
       - "tailor-inc/sre"
+  - package-ecosystem: "pip"
+    directory: "get-ghe-access-token"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "tailor-inc/sre"
+    assignees:
+      - "tailor-inc/sre"
