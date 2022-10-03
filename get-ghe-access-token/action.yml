@@ -2,10 +2,6 @@ name: get access token
 description: 'Get access token via GitHub App'
 
 inputs:
-  setup-python:
-    required: false
-    default: 'true'
-    description: 'Setup python'
   app-id:
     required: true
     description: 'github app id'
@@ -18,7 +14,6 @@ inputs:
 
 outputs:
   access_token:
-    value: ${{ steps.get_access_token.outputs.access_token }}
     description: 'access token'
 
 runs:
