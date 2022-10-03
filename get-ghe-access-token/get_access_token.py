@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 
 import jwt
 import requests
@@ -7,6 +8,10 @@ import requests
 APP_ID = os.environ['GITHUB_APP_ID']
 APP_INSTALLATION_ID = os.environ['GITHUB_APP_INSTALLATION_ID']
 PRIVATE_KEY = os.environ['GITHUB_APP_PRIVATE_KEY']
+
+if not all([APP_ID, APP_INSTALLATION_ID, PRIVATE_KEY]):
+    print('Error: app information not configured', file=sys.stderr)
+    sys.exit(1)
 
 now = int(time.time())
 
