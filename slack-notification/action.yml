@@ -11,7 +11,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: technote-space/workflow-conclusion-action@v1
+    - uses: technote-space/workflow-conclusion-action@v3.0.1
       with:
         FALLBACK_CONCLUSION: success
 
