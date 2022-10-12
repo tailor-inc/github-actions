@@ -11,8 +11,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: technote-space/workflow-conclusion-action@v1
+
     - name: Slack Notification on Success
-      if: ${{ success() }}
+      if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Succeeded
@@ -20,9 +22,10 @@ runs:
         SLACK_WEBHOOK: ${{ inputs.webhook_url }}
 
     - name: Slack Notification on Failure
-      if: ${{ failure() }}
+      if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Failed
         SLACK_COLOR: danger
         SLACK_WEBHOOK: ${{ inputs.webhook_url }}
+
