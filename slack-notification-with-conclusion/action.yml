@@ -1,5 +1,5 @@
-name: 'notify-to-slack'
-description: 'Notify to slack build result'
+name: 'notify-to-slack-with-jobs-conclusion'
+description: 'Notify Slack of build results. The notification process handles conclusions from the results of multiple jobs.'
 
 inputs:
   title:
@@ -13,8 +13,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: technote-space/workflow-conclusion-action@v1
+      with:
+        FALLBACK_CONCLUSION: success
+
     - name: Slack Notification on Success
-      if: ${{ success() }}
+      if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Succeeded
@@ -22,7 +26,7 @@ runs:
         SLACK_WEBHOOK: ${{ inputs.webhook_url }}
 
     - name: Slack Notification on Failure
-      if: ${{ failure() }}
+      if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Failed
