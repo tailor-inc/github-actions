@@ -14,8 +14,6 @@ runs:
   using: "composite"
   steps:
     - uses: technote-space/workflow-conclusion-action@v3
-      with:
-        FALLBACK_CONCLUSION: success
 
     - name: Slack Notification on Success
       if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
