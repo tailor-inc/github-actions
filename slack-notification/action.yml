@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Slack Notification on Success
       # if: ${{ success() }}
-      if: ${{ job.status == "success" }}
+      if: job.status == "success"
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Succeeded
@@ -24,7 +24,7 @@ runs:
 
     - name: Slack Notification on Failure
       # if: ${{ failure() }}
-      if: ${{ job.status == "failure" }}
+      if: job.status == "failure"
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Failed
