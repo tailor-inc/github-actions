@@ -30,14 +30,20 @@ runs:
 
     - name: Dump GitHub context
       id: github_context_step
+      shell: bash
       run: echo '${{ toJSON(github) }}'
     - name: Dump job context
+      shell: bash
       run: echo '${{ toJSON(job) }}'
     - name: Dump steps context
+      shell: bash
       run: echo '${{ toJSON(steps) }}'
     - name: Dump runner context
+      shell: bash
       run: echo '${{ toJSON(runner) }}'
     - name: Dump strategy context
+      shell: bash
       run: echo '${{ toJSON(strategy) }}'
     - name: Dump matrix context
+      shell: bash
       run: echo '${{ toJSON(matrix) }}'
