@@ -9,4 +9,3 @@ RUN pip install --upgrade pip \
 COPY . /app
 
 CMD ["/app/entrypoint.sh"]
-
