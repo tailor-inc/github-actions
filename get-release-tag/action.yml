@@ -24,6 +24,10 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: install dependency
+      shell: bash
+      run: |
+          apt update && apt install -y jq
     - name: get release with tag
       id: get-tag
       shell: bash
