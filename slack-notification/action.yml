@@ -13,15 +13,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Slack Notification on Success
-      # Composite actions cannot obtain job results from custom functions such as success() and failure(), so the job.status string is used as the judgment condition.
-      if: job.status == 'success'
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_TITLE: ${{ github.repository }} ${{ inputs.title }} Succeeded
-        SLACK_COLOR: good
-        SLACK_WEBHOOK: ${{ inputs.webhook_url }}
-
     - name: Slack Notification on Failure
       # Composite actions cannot obtain job results from custom functions such as success() and failure(), so the job.status string is used as the judgment condition.
       if: job.status == 'failure'
