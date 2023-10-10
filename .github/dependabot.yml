@@ -5,14 +5,14 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-      - "tailor-inc/sre"
+      - "tailor-inc/developer"
     assignees:
-      - "tailor-inc/sre"
+      - "tailor-inc/developer"
   - package-ecosystem: "pip"
     directory: "get-ghe-access-token"
     schedule:
       interval: "daily"
     reviewers:
-      - "tailor-inc/sre"
+      - "tailor-inc/developer"
     assignees:
-      - "tailor-inc/sre"
+      - "tailor-inc/developer"
