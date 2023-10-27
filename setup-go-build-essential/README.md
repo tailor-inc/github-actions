@@ -4,6 +4,6 @@ When running github actions self-hosted runner with ubuntu:latest image, install
 
 # inputs
 
-| parameter | comment|
-| --- | --- |
-| go-version | Specify the version of Go to be used in the project |
+| parameter  | description                                          |
+| ---------- | ---------------------------------------------------- |
+| go-version | Specify the version of Go to be used in the project  |
