@@ -1,0 +1,80 @@
+name: Deploy to Cloudflare
+
+inputs:
+  application_path:
+    type: string
+    required: true
+    description: The path of the application you want to deploy within its repository.
+  branch:
+    type: string
+    required: false
+    description: |-
+      The branch name to pass along to Cloudflare.
+      This value is needed to publish to production upon tagging as Cloudflare uses the branch name to
+      figure out whether it should deploy to preview or production.
+      Additionally, in preview environments, Cloudflare will deploy the codebase to a subdomain based on the branch name.
+      If you push to a branch called `example`, Cloudflare will deploy to `https://example.<project name in CF>.pages.dev`.
+      Using this input you can override this default behavior and have Cloudflare deploy to a different subdomain.
+  cloudflare_project_name:
+    type: string
+    required: true
+    description: The name of the project in Cloudflare.
+  cloudflare_account_id:
+    type: string
+    required: true
+    description: The Cloudflare account ID the given project belongs to.
+  cloudflare_api_token:
+    type: string
+    required: true
+    description: A Cloudflare API token.
+  github_token:
+    type: string
+    required: true
+    description: GitHub token with the `packages:read` permission.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        registry-url: https://npm.pkg.github.com
+
+    - name: Setup pnpm
+      shell: bash
+      run: corepack enable
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ inputs.application_path }}
+      run: pnpm install
+      env:
+        GITHUB_PACKAGES_READ_TOKEN: ${{ inputs.github_token }}
+
+    - name: Install next-on-pages
+      shell: bash
+      working-directory: ${{ inputs.application_path }}
+      run: pnpm install -D @cloudflare/next-on-pages@1
+      env:
+        GITHUB_PACKAGES_READ_TOKEN: ${{ inputs.github_token }}
+
+    - name: Build application
+      shell: bash
+      working-directory: ${{ inputs.application_path }}
+      run: pnpm exec next-on-pages
+      env:
+        GITHUB_PACKAGES_READ_TOKEN: ""
+        NEXT_PUBLIC_DEPLOYED_GIT_COMMIT_SHA: ${{github.sha}}
+        NEXT_TELEMETRY_DISABLED: "1" # see https://nextjs.org/telemetry
+
+    - name: Publish to Cloudflare Pages
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ inputs.cloudflare_api_token }}
+        accountId: ${{ inputs.cloudflare_account_id }}
+        branch: ${{ inputs.branch }}
+        projectName: ${{ inputs.cloudflare_project_name }}
+        directory: ${{ inputs.application_path }}/.vercel/output/static
+        wranglerVersion: "3"
