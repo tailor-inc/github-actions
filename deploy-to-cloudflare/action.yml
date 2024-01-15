@@ -69,6 +69,19 @@ runs:
         NEXT_PUBLIC_DEPLOYED_GIT_COMMIT_SHA: ${{github.sha}}
         NEXT_TELEMETRY_DISABLED: "1" # see https://nextjs.org/telemetry
 
+    - name: Add headers
+      shell: bash
+      working-directory: ${{ inputs.application_path }}
+      run: |
+        cat <<EOF >> .vercel/output/static/_headers
+
+        /*.js
+          Content-Type: text/javascript
+
+        /*.css
+          Content-Type: text/css
+        EOF
+
     - name: Publish to Cloudflare Pages
       uses: cloudflare/pages-action@v1
       with:
