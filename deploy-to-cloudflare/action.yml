@@ -37,14 +37,17 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v3
+    - uses: pnpm/action-setup@v3
       with:
-        node-version: 18
-        registry-url: https://npm.pkg.github.com
+        run_install: |
+          - args: [--global, '@cloudflare/next-on-pages@1']
 
-    - name: Setup pnpm
-      shell: bash
-      run: corepack enable
+    - uses: actions/setup-node@v4
+      with:
+        cache: pnpm
+        cache-dependency-path: pnpm-lock.yaml
+        node-version-file: package.json
+        registry-url: https://npm.pkg.github.com
 
     - name: Install dependencies
       shell: bash
@@ -53,17 +56,10 @@ runs:
       env:
         GITHUB_PACKAGES_READ_TOKEN: ${{ inputs.github_token }}
 
-    - name: Install next-on-pages
-      shell: bash
-      working-directory: ${{ inputs.application_path }}
-      run: pnpm install -D @cloudflare/next-on-pages@1
-      env:
-        GITHUB_PACKAGES_READ_TOKEN: ${{ inputs.github_token }}
-
     - name: Build application
       shell: bash
       working-directory: ${{ inputs.application_path }}
-      run: pnpm exec next-on-pages
+      run: next-on-pages
       env:
         GITHUB_PACKAGES_READ_TOKEN: ""
         NEXT_PUBLIC_DEPLOYED_GIT_COMMIT_SHA: ${{github.sha}}

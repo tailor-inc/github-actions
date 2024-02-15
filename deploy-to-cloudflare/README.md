@@ -2,6 +2,17 @@
 
 Builds and deploys a Next.js application to Cloudflare.
 
+It assumes the host project has a `package.json` at its root and it defines the node version, e.g.
+
+```jsonc
+{
+  // ...
+  "engines": {
+    "node": "20.x"
+  }
+}
+```
+
 ## Inputs
 
 - `application_path`
@@ -58,9 +69,5 @@ jobs:
           cloudflare_api_token: ${{secrets.CLOUDFLARE_API_TOKEN}}
           github_token: ${{secrets.GITHUB_TOKEN}}
         env:
-          NEXT_PUBLIC_DATADOG_RUM_SERVICE: console
-          NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID: d71b015c-dd30-4129-b50b-b679a796c23a
-          NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN: pubcc21a546a3d08a69dffe75492e4dff12
-          NEXT_PUBLIC_DEPLOYED_ENV: preview
-          NEXT_PUBLIC_DOMAIN: https://tailor-pf.erp.dev/query
+          NEXT_PUBLIC_API_URL: https://api.tailor.tech
 ```
