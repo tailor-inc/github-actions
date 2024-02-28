@@ -41,6 +41,7 @@ runs:
       with:
         run_install: |
           - args: [--global, '@cloudflare/next-on-pages@1']
+          - cwd: ${{ inputs.application_path }}
 
     - uses: actions/setup-node@v4
       with:
