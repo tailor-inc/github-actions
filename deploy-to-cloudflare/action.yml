@@ -5,6 +5,11 @@ inputs:
     type: string
     required: true
     description: The path of the application you want to deploy within its repository.
+  lockfile_path:
+    type: string
+    required: false
+    description: The path to lockfile of package manager
+    default: 'pnpm-lock.yaml'
   branch:
     type: string
     required: false
@@ -46,7 +51,7 @@ runs:
     - uses: actions/setup-node@v4
       with:
         cache: pnpm
-        cache-dependency-path: ${{ inputs.application_path }}/pnpm-lock.yaml
+        cache-dependency-path: ${{ inputs.lockfile_path }}
         node-version-file: ${{ inputs.application_path }}/package.json
         registry-url: https://npm.pkg.github.com
 
