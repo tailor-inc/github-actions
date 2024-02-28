@@ -45,8 +45,8 @@ runs:
     - uses: actions/setup-node@v4
       with:
         cache: pnpm
-        cache-dependency-path: pnpm-lock.yaml
-        node-version-file: package.json
+        cache-dependency-path: ${{ inputs.application_path }}/pnpm-lock.yaml
+        node-version-file: ${{ inputs.application_path }}/package.json
         registry-url: https://npm.pkg.github.com
 
     - name: Install dependencies
